@@ -1,4 +1,4 @@
-Android-Test
+MisLugares
 ============
 
-Apps prueba de funcionalidades
+App para establecer lugares favoritos
