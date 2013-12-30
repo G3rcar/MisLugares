@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Mis Lugares</string>
+    <string name="app_name">Lugares</string>
     <string name="action_configuraciones">Configuraciones</string>
     <string name="action_nuevo_lugar">Nuevo lugar</string>
-    <string name="title_mis_lugares">Mis Lugares</string>
+    <string name="title_favoritos">Favoritos</string>
 
 </resources>
