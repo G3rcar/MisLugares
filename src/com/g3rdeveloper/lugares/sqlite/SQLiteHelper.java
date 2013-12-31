@@ -17,7 +17,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("create table if not exists " +
-                "favorito(id integer primary key autoincrement, titulo text, direccion text"+
+                "favorito(id integer primary key autoincrement, titulo text, direccion text,"+
 				"latitud text, longitud text);");
 		db.execSQL("create table if not exists " +
                 "foto(id integer primary key autoincrement, idfavorito integer, referencia text);");

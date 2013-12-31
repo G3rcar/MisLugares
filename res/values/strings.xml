@@ -21,4 +21,6 @@
     <string name="txtAudio">Audio</string>
     <string name="txtVideo">Video</string>
     
+    <string name="nullText"></string>
+    
 </resources>
