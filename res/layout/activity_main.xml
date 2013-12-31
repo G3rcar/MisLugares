@@ -16,4 +16,14 @@
         android:layout_height="wrap_content" >
     </ListView>
 
+    <TextView
+        android:id="@+id/txvNoResultado"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="@string/noFavorito"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#AAAAAA"
+        android:gravity="center_horizontal|center_vertical"
+        android:visibility="gone" />
+
 </LinearLayout>

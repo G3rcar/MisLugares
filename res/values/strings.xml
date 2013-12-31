@@ -2,8 +2,23 @@
 <resources>
 
     <string name="app_name">Lugares</string>
+    
     <string name="action_configuraciones">Configuraciones</string>
     <string name="action_nuevo_lugar">Nuevo lugar</string>
+    <string name="action_buscar">Buscar</string>
+    <string name="action_buscar_hint">Buscar favorito</string>
+    <string name="action_guardar">Guardar</string>
+    <string name="action_refrescar">Refrescar</string>
+    
     <string name="title_favoritos">Favoritos</string>
-
+    <string name="noFavorito">Aún no tienes ningún favorito</string>
+    <string name="title_activity_agregar">AgregarActivity</string>
+    <string name="lblDireccionAprox">Dirección aproximada</string>
+    <string name="txvContenidoExtra">Contenido extra</string>
+    <string name="edtTituloHint">Título</string>
+    
+    <string name="txtFoto">Foto</string>
+    <string name="txtAudio">Audio</string>
+    <string name="txtVideo">Video</string>
+    
 </resources>

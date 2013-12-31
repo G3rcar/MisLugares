@@ -9,16 +9,23 @@
     android:paddingTop="@dimen/activity_vertical_margin" >
 
     <TextView
-        android:id="@+id/txvTitulo"
+        android:id="@+id/txvTituloFavorito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/txvDireccion"
+        android:id="@+id/txvDireccionFavorito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="" />
+
+    <TextView
+        android:id="@+id/txvIdFavorito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone" />
 
 </LinearLayout>
