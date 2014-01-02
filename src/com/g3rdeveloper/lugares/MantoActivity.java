@@ -138,7 +138,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 			NavUtils.navigateUpFromSameTask(this);
 			break;
 		case R.id.itmGuardarFavorito:
-			if(latitud!=0 && longitud!=0 && !edtTitulo.getText().equals("") && !estaCargando){
+			if(latitud!=0 && longitud!=0 && !edtTitulo.getText().toString().equals("") && !estaCargando){
 				guardarLugar();
 			}
 			break;
@@ -146,6 +146,8 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 		case R.id.itmRefrescarMapa:
 			estaCargando=true;
 			primeraPosicionCargada=false;
+			setSupportProgressBarIndeterminate(true);
+            mLocationClient.connect();
 			break;
 		}
 		return true;
@@ -262,6 +264,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
     			e.printStackTrace();
     		}
     		estaCargando = false;
+            mLocationClient.disconnect();
 			setSupportProgressBarIndeterminateVisibility(false);
     	}
     	
