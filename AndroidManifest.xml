@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.g3rdeveloper.lugares.AgregarActivity"
+            android:name="com.g3rdeveloper.lugares.MantoActivity"
             android:label="@string/title_activity_agregar"
             android:parentActivityName="com.g3rdeveloper.lugares.MainActivity" >
         </activity>

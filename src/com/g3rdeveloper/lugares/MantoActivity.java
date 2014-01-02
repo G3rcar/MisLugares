@@ -46,7 +46,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AgregarActivity extends ActionBarActivity implements ConnectionCallbacks,
+public class MantoActivity extends ActionBarActivity implements ConnectionCallbacks,
 									OnConnectionFailedListener,LocationListener {
 	
 	private String type = "nvo";
@@ -136,6 +136,7 @@ public class AgregarActivity extends ActionBarActivity implements ConnectionCall
 		switch(item.getItemId()){
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
+			break;
 		case R.id.itmGuardarFavorito:
 			if(latitud!=0 && longitud!=0 && !edtTitulo.getText().equals("") && !estaCargando){
 				guardarLugar();

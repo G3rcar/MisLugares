@@ -111,7 +111,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 		case R.id.itmNuevoLugar:
-			Intent intent = new Intent(this, AgregarActivity.class);
+			Intent intent = new Intent(this, MantoActivity.class);
             intent.putExtra(LUGAR_MTO, "NVO");
             startActivityForResult(intent, 1);	
 		}
