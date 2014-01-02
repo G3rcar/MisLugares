@@ -1,5 +1,6 @@
 package com.g3rdeveloper.lugares;
 
+import com.g3rdeveloper.lugares.ConfirmFragment.ConfirmFragmentListener;
 import com.g3rdeveloper.lugares.sqlite.SQLiteHelper;
 
 import android.app.SearchManager;
@@ -9,6 +10,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBar;
@@ -27,13 +29,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity implements OnItemClickListener {
+public class MainActivity extends ActionBarActivity implements OnItemClickListener,ConfirmFragmentListener {
 	
 	private ActionBar ab;
 	private SQLiteDatabase db = null;
 	private ListView listView;
 	private MenuItem actBtnBusqueda;
 	private SimpleCursorAdapter adapter;
+	private int idEnOperacion;
 	public static final String LUGAR_KEY = "com.g3rdeveloper.lugares.LUGAR";
 	public static final String LUGAR_MTO = "com.g3rdeveloper.lugares.LUGARMTO";
 	
@@ -55,7 +58,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     
     private void iniciarBD(){
     	try{
-            SQLiteHelper sqliteHelper = new SQLiteHelper(this, "lugares.db", null, 1);
+    		SQLiteHelper sqliteHelper = new SQLiteHelper(this, "lugares.db", null, 1);
             db = sqliteHelper.getWritableDatabase();
             cargarLista();
             db.close();
@@ -81,10 +84,21 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     }
     
     
-    private void borrarItem(int id){
-    	
+    private void initBorrarItem(int id){
+    	idEnOperacion = id;
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		ConfirmFragment dialogo = new ConfirmFragment();
+		dialogo.setMessage("¿Estás seguro de borrar el registro seleccionado?");
+        dialogo.show(fragmentManager, "tagAlerta");
     }
     
+    private void borrarItem(int id){
+    	SQLiteHelper sqliteHelper = new SQLiteHelper(this, "lugares.db", null, 1);
+        db = sqliteHelper.getWritableDatabase();
+    	db.delete("favorito", "id="+id, null);
+    	db.close();
+    	iniciarBD();
+    }
     
     
     
@@ -98,6 +112,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.favoritos_contextual, menu);
 	}
+    
+    @Override
+	public void onDialogPositiveButton() {
+		borrarItem(idEnOperacion);
+		idEnOperacion=0;
+	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -105,10 +125,10 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		Cursor cursor = (Cursor)listView.getItemAtPosition(info.position);
 		switch(item.getItemId()){
 		case R.id.itmBorrar:
-			Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
+	        initBorrarItem(cursor.getInt(1));
 			break;
 		case R.id.itmVer:
-			borrarItem(cursor.getInt(1));
+			Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.itmModificar:
 			Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
@@ -168,5 +188,5 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 			iniciarBD();
 		}
 	}
-    
+
 }
