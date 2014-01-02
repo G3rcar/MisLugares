@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+ 
+    <item
+        android:id="@+id/itmVer"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/action_ver"
+        android:titleCondensed="Delete">
+    </item>
+    <item
+        android:id="@+id/itmModificar"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/action_modificar"
+        android:titleCondensed="Delete">
+    </item>
+    <item
+        android:id="@+id/itmBorrar"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/action_borrar"
+        android:titleCondensed="Delete">
+    </item>
+ 
+</menu>

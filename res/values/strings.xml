@@ -9,6 +9,9 @@
     <string name="action_buscar_hint">Buscar favorito</string>
     <string name="action_guardar">Guardar</string>
     <string name="action_refrescar">Refrescar</string>
+    <string name="action_borrar">Borrar</string>
+    <string name="action_modificar">Modificar</string>
+    <string name="action_ver">Ver</string>
     
     <string name="title_favoritos">Favoritos</string>
     <string name="noFavorito">Aún no tienes ningún favorito</string>

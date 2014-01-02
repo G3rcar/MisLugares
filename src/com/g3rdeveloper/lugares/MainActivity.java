@@ -14,10 +14,14 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +48,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         listView = (ListView)findViewById(R.id.lstFavoritos);
         listView.setOnItemClickListener(this);
         iniciarBD();
+        
+        registerForContextMenu(listView);
         
     }
     
@@ -73,7 +79,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         	listView.setEmptyView((TextView)findViewById(R.id.txvNoResultado));
         }
     }
-
+    
+    
+    private void borrarItem(int id){
+    	
+    }
     
     
     
@@ -82,6 +92,32 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     
 
     @Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.favoritos_contextual, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		Cursor cursor = (Cursor)listView.getItemAtPosition(info.position);
+		switch(item.getItemId()){
+		case R.id.itmBorrar:
+			Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.itmVer:
+			borrarItem(cursor.getInt(1));
+			break;
+		case R.id.itmModificar:
+			Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
+			break;
+		}
+		return true;
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favoritos, menu);
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
