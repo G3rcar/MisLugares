@@ -1,6 +1,8 @@
 package com.g3rdeveloper.lugares;
 
-import com.g3rdeveloper.lugares.ConfirmFragment.ConfirmFragmentListener;
+import com.g3rdeveloper.lugares.beans.LugarBean;
+import com.g3rdeveloper.lugares.fragments.ConfirmFragment;
+import com.g3rdeveloper.lugares.fragments.ConfirmFragment.ConfirmFragmentListener;
 import com.g3rdeveloper.lugares.sqlite.SQLiteHelper;
 
 import android.app.SearchManager;
@@ -72,10 +74,10 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     }
     
     private void cargarLista() throws Exception{
-    	Cursor cursor = db.rawQuery("select rowid _id,id, titulo, direccion from favorito", null);
-        String[] from = {"id","titulo","direccion"};
+    	Cursor cursor = db.rawQuery("select rowid _id,id, titulo, direccion, latitud, longitud from favorito", null);
+        String[] from = {"id","titulo","direccion","latitud","longitud"};
         
-        int[] to = {R.id.txvIdFavorito,R.id.txvTituloFavorito,R.id.txvDireccionFavorito};
+        int[] to = {R.id.txvIdFavorito,R.id.txvTituloFavorito,R.id.txvDireccionFavorito,R.id.txvLatitud,R.id.txvLongitud};
         adapter = new SimpleCursorAdapter(this, R.layout.favorito_layout, cursor, from, to,0);
         listView.setAdapter(adapter);
         if(cursor.getCount()==0){
@@ -131,7 +133,20 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 			Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.itmModificar:
-			Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
+			Bundle b = new Bundle();
+            Intent intent = new Intent(this, MantoActivity.class);
+            LugarBean bean = new LugarBean();
+            bean.setId(cursor.getInt(1));
+            bean.setTitulo(cursor.getString(2));
+            bean.setDireccion(cursor.getString(3));
+            bean.setLatitud(cursor.getDouble(4));
+            bean.setLongitud(cursor.getDouble(5));
+            
+            b.putSerializable(LUGAR_KEY, bean);
+            intent.putExtras(b);
+            intent.putExtra(LUGAR_MTO, "MTO");
+            startActivityForResult(intent,2);
+            
 			break;
 		}
 		return true;

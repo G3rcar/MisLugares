@@ -1,4 +1,4 @@
-package com.g3rdeveloper.lugares;
+package com.g3rdeveloper.lugares.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,7 +19,6 @@ public class ConfirmFragment extends DialogFragment {
 		
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		try{ listener = (ConfirmFragmentListener) activity; }
 		catch(ClassCastException e){  }

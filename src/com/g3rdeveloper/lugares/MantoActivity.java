@@ -102,6 +102,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 		try{
 			Intent intent = getIntent();
             type = intent.getStringExtra(MainActivity.LUGAR_MTO);
+            Log.d("CARGANDO",type);
             if(type==null){
             	type = "NVO";
             }
@@ -110,6 +111,9 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 				Bundle b = (Bundle) intent.getExtras();
 				bean = (LugarBean) b.get(MainActivity.LUGAR_KEY);
 				idFavorito = bean.getId();
+				latitud = bean.getLatitud();
+				longitud = bean.getLongitud();
+				
 				edtTitulo.setText(bean.getTitulo());
 				txvDireccion.setText(bean.getDireccion());
             }else{
@@ -140,6 +144,8 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 		case R.id.itmGuardarFavorito:
 			if(latitud!=0 && longitud!=0 && !edtTitulo.getText().toString().equals("") && !estaCargando){
 				guardarLugar();
+			}else{
+				Toast.makeText(this, "Completa los campos para poder guardar", Toast.LENGTH_SHORT).show();
 			}
 			break;
 			
@@ -191,6 +197,9 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
         if (mMap == null) {
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
         }
+        if(type.equalsIgnoreCase("MTO")){
+        	ponerMarcador();
+        }
     }
 	
 	private void setUpLocationClient() {
@@ -207,15 +216,21 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 	@Override
 	public void onLocationChanged(Location location) {
 		if(!primeraPosicionCargada){
-			latitud = location.getLatitude();
-			longitud = location.getLongitude();
-            LatLng latLng = new LatLng(latitud, longitud);
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-            mMap.animateCamera(cameraUpdate);
-            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())));
-            buscarDireccion();
-            primeraPosicionCargada=true;
+			if(type.equalsIgnoreCase("NVO")){
+				latitud = location.getLatitude();
+				longitud = location.getLongitude();
+				ponerMarcador();
+			}
 		}
+	}
+	
+	private void ponerMarcador(){
+		LatLng latLng = new LatLng(latitud, longitud);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+        mMap.animateCamera(cameraUpdate);
+        mMap.addMarker(new MarkerOptions().position(latLng));
+        buscarDireccion();
+        primeraPosicionCargada=true;
 	}
 	
 	private void buscarDireccion(){

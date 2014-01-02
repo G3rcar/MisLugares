@@ -29,6 +29,20 @@
         android:layout_height="wrap_content"
         android:text=""
         android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/txvLatitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/txvLongitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imageView1"
