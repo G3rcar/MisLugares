@@ -1,0 +1,43 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/itmRefrescarMapa"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_navigation_refresh"
+        app:showAsAction="always"
+        android:title="@string/action_refrescar"/>
+    
+    <item
+        android:id="@+id/itmGuardarFavorito"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_content_save"
+        app:showAsAction="always"
+        android:title="@string/action_guardar"/>
+    
+    <item 
+        android:id="@+id/itmAdjuntar"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="@string/txtAdjuntar"
+        android:icon="@drawable/ic_content_new_attachment" >
+        <menu>
+            <item 
+                android:id="@+id/itmAudio"
+                android:orderInCategory="100"
+                android:title="@string/txtAudio"
+        		android:icon="@drawable/ic_device_access_mic" />
+            <item 
+                android:id="@+id/itmVideo"
+                android:orderInCategory="100"
+                android:title="@string/txtVideo"
+        		android:icon="@drawable/ic_device_access_video" />
+            <item 
+                android:id="@+id/itmFoto"
+                android:orderInCategory="100"
+                android:title="@string/txtFoto"
+        		android:icon="@drawable/ic_device_access_camera" />
+        </menu>
+    </item>
+
+</menu>

@@ -18,91 +18,62 @@
 		map:uiZoomControls="false"
 		map:uiZoomGestures="false"
         class="com.google.android.gms.maps.SupportMapFragment" />
-	
-    <ScrollView
-        android:id="@+id/ScrollView1"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/edtTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-            
-            <EditText
-	            android:id="@+id/edtTitulo"
-	            android:hint="@string/edtTituloHint"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:inputType="text"
-	            android:ems="10" >
-	
-	            <requestFocus />
-	        </EditText>
+            android:ems="10"
+            android:hint="@string/edtTituloHint"
+            android:inputType="text" />
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/lblDireccionAprox"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/lblDireccionAprox"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/txvDireccionAproximada"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txtCargando"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/txvDireccionAproximada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtCargando"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/txvContenidoExtra"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/txvContenidoExtra"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+        <GridView
+            android:id="@+id/gdvExtrasManto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnWidth="85dp"
+			android:numColumns="4"
+			      
+			android:gravity="center"
+			android:horizontalSpacing="0dp"
+			android:stretchMode="columnWidth"
+			android:verticalSpacing="5dp" >
+        </GridView>
 
-                <ImageButton
-                    android:id="@+id/ibtnFoto"
-                    android:contentDescription="@string/txtFoto"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_device_access_camera" />
+    </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/ibtnAudio"
-                    android:contentDescription="@string/txtAudio"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_device_access_mic" />
-
-                <ImageButton
-                    android:id="@+id/ibtnVideo"
-                    android:contentDescription="@string/txtVideo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_device_access_video" />
-
-            </LinearLayout>
-        
-        </LinearLayout>
-
-        
-
-
-    </ScrollView>
 
 </LinearLayout>

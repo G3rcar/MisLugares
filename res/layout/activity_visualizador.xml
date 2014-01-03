@@ -13,13 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-		map:uiRotateGestures="false"
+        map:uiRotateGestures="false"
 		map:uiScrollGestures="false"
 		map:uiTiltGestures="false"
 		map:uiZoomControls="false"
 		map:uiZoomGestures="false"
         class="com.google.android.gms.maps.SupportMapFragment" />
-	
+		
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,8 +66,13 @@
                 android:id="@+id/gdvExtras"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#669900"
-                android:numColumns="auto_fit" >
+                android:columnWidth="85dp"
+                android:numColumns="4"
+                
+		        android:gravity="center"
+		        android:horizontalSpacing="0dp"
+		        android:stretchMode="columnWidth"
+		        android:verticalSpacing="5dp" >
             </GridView>
         
         </LinearLayout>

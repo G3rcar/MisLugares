@@ -30,6 +30,7 @@ public class VisualizadorActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_visualizador);
+		setupActionBar();
 		
 		GridView gridView = (GridView)findViewById(R.id.gdvExtras);
 		gridView.setAdapter(new ImageAdapter(this));
@@ -54,6 +55,9 @@ public class VisualizadorActivity extends ActionBarActivity {
         }
     }
 	
+	private void setupActionBar() {
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 	
 	
 	public class ImageAdapter extends BaseAdapter {
@@ -80,9 +84,10 @@ public class VisualizadorActivity extends ActionBarActivity {
 	        ImageView imageView;
 	        if (convertView == null) {  // if it's not recycled, initialize some attributes
 	            imageView = new ImageView(mContext);
-	            imageView.setLayoutParams(new GridView.LayoutParams(70, 70));
+	            GridView.LayoutParams layoutParams = new GridView.LayoutParams(85, 85);
+	            imageView.setLayoutParams(layoutParams);
 	            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-	            imageView.setPadding(8, 8, 8, 8);
+	            imageView.setPadding(3, 3, 3, 3);
 	        } else {
 	            imageView = (ImageView) convertView;
 	        }
@@ -93,14 +98,14 @@ public class VisualizadorActivity extends ActionBarActivity {
 
 	    // references to our images
 	    private Integer[] mThumbIds = {
-	            R.drawable.ic_av_play_over_video,
-	            R.drawable.ic_device_access_mic,
-	            R.drawable.ic_device_access_volume_on,
-	            R.drawable.ic_av_play_over_video,
-	            R.drawable.ic_av_play_over_video,
-	            R.drawable.ic_device_access_mic,
-	            R.drawable.ic_device_access_volume_on,
-	            R.drawable.ic_device_access_mic
+	            R.drawable.grid_video,
+	            R.drawable.grid_image,
+	            R.drawable.grid_audio,
+	            R.drawable.grid_video,
+	            R.drawable.grid_video,
+	            R.drawable.grid_image,
+	            R.drawable.grid_audio,
+	            R.drawable.grid_image
 	    };
 	}
 

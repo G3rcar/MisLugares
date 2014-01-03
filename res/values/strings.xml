@@ -20,6 +20,7 @@
     <string name="lblDireccionAprox">Dirección aproximada</string>
     <string name="txvContenidoExtra">Contenido extra</string>
     <string name="edtTituloHint">Título</string>
+    <string name="txtAdjuntar">Adjuntar</string>
     <string name="txtFoto">Foto</string>
     <string name="txtAudio">Audio</string>
     <string name="txtVideo">Video</string>

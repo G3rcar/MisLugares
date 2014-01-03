@@ -163,7 +163,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.agregar, menu);
+		getMenuInflater().inflate(R.menu.manto, menu);
 		return true;
 	}
 	
