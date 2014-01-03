@@ -39,6 +39,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	private MenuItem actBtnBusqueda;
 	private SimpleCursorAdapter adapter;
 	private int idEnOperacion;
+	public static final String LUGAR_VER = "com.g3rdeveloper.lugares.VISUALIZAR";
 	public static final String LUGAR_KEY = "com.g3rdeveloper.lugares.LUGAR";
 	public static final String LUGAR_MTO = "com.g3rdeveloper.lugares.LUGARMTO";
 	
@@ -101,7 +102,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     	db.close();
     	iniciarBD();
     }
-    
+
+	public void verItem(int id){
+		Intent intent = new Intent(this, VisualizadorActivity.class);
+        intent.putExtra(LUGAR_VER, ""+id);
+        startActivity(intent);
+	}
     
     
     
@@ -130,7 +136,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	        initBorrarItem(cursor.getInt(1));
 			break;
 		case R.id.itmVer:
-			Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
+			verItem(cursor.getInt(1));
 			break;
 		case R.id.itmModificar:
 			Bundle b = new Bundle();
@@ -151,6 +157,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		}
 		return true;
 	}
+	
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -193,7 +200,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	public void onItemClick(AdapterView<?> listview, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		Cursor cursor = (Cursor)listview.getItemAtPosition(position);
-		Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
+		verItem(cursor.getInt(1));
 	}
 	
 	

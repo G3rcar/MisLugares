@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Lugares</string>
-    
     <string name="action_configuraciones">Configuraciones</string>
     <string name="action_nuevo_lugar">Nuevo lugar</string>
     <string name="action_buscar">Buscar</string>
@@ -14,15 +13,18 @@
     <string name="action_ver">Ver</string>
     
     <string name="title_favoritos">Favoritos</string>
+    <string name="title_activity_manto">AgregarActivity</string>
+    <string name="title_activity_visualizador">Visualizar</string>
+    
     <string name="noFavorito">Aún no tienes ningún favorito</string>
-    <string name="title_activity_agregar">AgregarActivity</string>
     <string name="lblDireccionAprox">Dirección aproximada</string>
     <string name="txvContenidoExtra">Contenido extra</string>
     <string name="edtTituloHint">Título</string>
-    
     <string name="txtFoto">Foto</string>
     <string name="txtAudio">Audio</string>
     <string name="txtVideo">Video</string>
+    <string name="txtCargando">Cargando...</string>
+    <string name="txtTitulo">Título</string>
     
     <string name="nullText"></string>
     
