@@ -8,13 +8,6 @@
         app:showAsAction="always"
         android:title="@string/action_refrescar"/>
     
-    <item
-        android:id="@+id/itmGuardarFavorito"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_content_save"
-        app:showAsAction="always"
-        android:title="@string/action_guardar"/>
-    
     <item 
         android:id="@+id/itmAdjuntar"
         android:orderInCategory="100"
@@ -39,5 +32,12 @@
         		android:icon="@drawable/ic_device_access_camera" />
         </menu>
     </item>
+    
+    <item
+        android:id="@+id/itmGuardarFavorito"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_content_save"
+        app:showAsAction="always"
+        android:title="@string/action_guardar"/>
 
 </menu>

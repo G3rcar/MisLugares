@@ -106,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	public void verItem(int id){
 		Intent intent = new Intent(this, VisualizadorActivity.class);
         intent.putExtra(LUGAR_VER, ""+id);
-        startActivity(intent);
+        startActivityForResult(intent,1);
 	}
     
     
