@@ -1,24 +1,42 @@
 package com.g3rdeveloper.lugares;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class MostrarVideoActivity extends ActionBarActivity {
 	
 	Uri mUrl;
+	int idRecurso;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mostrar_video);
         setupActionBar();
-		
-		buscarUri(0);
+        
+        try{
+			Intent intent = getIntent();
+            idRecurso = Integer.valueOf(intent.getStringExtra(MainActivity.ID_KEY));
+            
+            if(idRecurso==0){
+            	String path = intent.getStringExtra(MainActivity.URL_KEY);
+            	mUrl = Uri.parse(Environment.getExternalStorageDirectory()+MainActivity.APP_DIRECTORY+path);
+            }else{
+            	buscarUri(idRecurso);
+            }
+            
+		}catch(Exception e){
+			e.printStackTrace();
+			Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
 		reproducirVideo();
 	}
 

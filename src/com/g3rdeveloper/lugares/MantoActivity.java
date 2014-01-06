@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,9 +18,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.g3rdeveloper.lugares.beans.ItemsBean;
 import com.g3rdeveloper.lugares.beans.LugarBean;
 import com.g3rdeveloper.lugares.fragments.RecordAudioFragment;
 import com.g3rdeveloper.lugares.fragments.RecordAudioFragment.RecordAudioFragmentListener;
+import com.g3rdeveloper.lugares.fragments.ReproducirAudioFragment;
 import com.g3rdeveloper.lugares.sqlite.SQLiteHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -34,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
@@ -48,10 +53,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class MantoActivity extends ActionBarActivity implements ConnectionCallbacks,
 									OnConnectionFailedListener,LocationListener,RecordAudioFragmentListener {
@@ -81,6 +93,9 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
     String direccionRest="";
     String nameNewFile="";
     String[] files;
+    GridView gridView;
+    
+    List<ItemsBean> data;
     
     @Override
     protected void onResume() {
@@ -88,6 +103,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
         setUpMap();
         setUpLocationClient();
         mLocationClient.connect();
+        
     }
 
     @Override
@@ -140,6 +156,40 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 			e.printStackTrace();
 			Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
+		
+		gridView = (GridView)findViewById(R.id.gdvExtrasManto);
+		
+		data = new ArrayList<ItemsBean>();
+		
+		ImageAdapter adaptador = new ImageAdapter(this,data);
+		gridView.setAdapter(adaptador);
+		
+		gridView.setOnItemClickListener(new OnItemClickListener() {
+	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	        	ItemsBean item = data.get(position);
+	        	Intent intent;
+	        	switch(item.getTipo()){
+	        	case MainActivity.TIPO_AUDIO:
+	        		FragmentManager fragmentManager = getSupportFragmentManager();
+	    			ReproducirAudioFragment dialogo = new ReproducirAudioFragment();
+	    			dialogo.setUrlFile("/tmp/"+item.getUrl());
+	    			dialogo.show(fragmentManager, "tagReproducir");
+	        		break;
+	        	case MainActivity.TIPO_FOTO:
+	        		intent = new Intent(MantoActivity.this,MostrarImagenActivity.class);
+	        		intent.putExtra(MainActivity.ID_KEY, 0);
+	        		intent.putExtra(MainActivity.URL_KEY, "/tmp/"+item.getUrl());
+	        		startActivity(intent);
+	        		break;
+	        	case MainActivity.TIPO_VIDEO:
+	        		intent = new Intent(MantoActivity.this,MostrarVideoActivity.class);
+	        		intent.putExtra(MainActivity.ID_KEY, 0);
+	        		intent.putExtra(MainActivity.URL_KEY, "tmp/"+item.getUrl());
+	        		startActivity(intent);
+	        		break;
+	        	}
+	        }
+	    });
 	}
 	
 	private void setupActionBar() {
@@ -238,17 +288,17 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
         //Foto
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-            	//
+            	agregarItem(nameNewFile,MainActivity.TIPO_FOTO);
             } else if (resultCode == RESULT_CANCELED) {
             	//
             } else {
-                    Toast.makeText(this, "Error al tomar la foto", Toast.LENGTH_LONG).show();
+            	Toast.makeText(this, "Error al tomar la foto", Toast.LENGTH_LONG).show();
             }
         }
 		
 		if (requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-            	//
+            	agregarItem(nameNewFile,MainActivity.TIPO_VIDEO);
             } else if (resultCode == RESULT_CANCELED) {
             	//
             } else {
@@ -258,6 +308,16 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
                 Toast.makeText(this, "Error al tomar el Video", Toast.LENGTH_LONG).show();
         }
     }
+	
+	private void agregarItem(String archivo,int tipo){
+		ItemsBean item = new ItemsBean();
+		item.setId(0);
+		item.setTipo(tipo);
+		item.setUrl(archivo);
+		data.add(item);
+		ImageAdapter adaptador = new ImageAdapter(this,data);
+		gridView.setAdapter(adaptador);
+	}
 	
 	
 	
@@ -312,6 +372,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 		
 	}
 	
+	
 	@Override
     public void onConnectionFailed(ConnectionResult arg0) {
 		// TODO Auto-generated method stub
@@ -332,7 +393,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 
 	@Override
 	public void onRecordPositiveButton(String name) {
-		Toast.makeText(this, "Audio guardado"+name, Toast.LENGTH_SHORT).show();
+    	agregarItem(name,MainActivity.TIPO_AUDIO);
 	}
     
     
@@ -406,5 +467,53 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
         }
         return ret;
     }
+    
+    
+    
+    
+    public class ImageAdapter extends BaseAdapter {
+	    private Context mContext;
+	    private List<ItemsBean> items;
+
+	    public ImageAdapter(Context c, List<ItemsBean> data) {
+	        mContext = c;
+	        items = data;
+	    }
+
+	    public int getCount() {
+	        return items.size();
+	    }
+
+	    public ItemsBean getItem(int position) {
+	        return items.get(position);
+	    }
+
+	    public long getItemId(int position) {
+	        return items.get(position).getId();
+	    }
+
+	    public View getView(int position, View convertView, ViewGroup parent) {
+	        ImageView imageView;
+	        if (convertView == null) {
+	            imageView = new ImageView(mContext);
+	            GridView.LayoutParams layoutParams = new GridView.LayoutParams(85, 85);
+	            imageView.setLayoutParams(layoutParams);
+	            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+	            imageView.setPadding(3, 3, 3, 3);
+	        } else {
+	            imageView = (ImageView) convertView;
+	        }
+
+	        imageView.setImageResource(mThumbIds[items.get(position).getTipo()]);
+	        return imageView;
+	    }
+
+	    // references to our images
+	    private Integer[] mThumbIds = {
+	            R.drawable.grid_video,
+	            R.drawable.grid_audio,
+	            R.drawable.grid_image
+	    };
+	}
 
 }

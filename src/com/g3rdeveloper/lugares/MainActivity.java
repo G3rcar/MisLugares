@@ -44,6 +44,13 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	public static final String LUGAR_MTO = "com.g3rdeveloper.lugares.LUGARMTO";
 	
 	public static final String APP_DIRECTORY = "/Lugares";
+
+	public static final int TIPO_VIDEO = 0;
+	public static final int TIPO_AUDIO = 1;
+	public static final int TIPO_FOTO = 2;
+	
+	public static final String ID_KEY = "com.g3rdeveloper.lugares.ID_RECURSO";
+	public static final String URL_KEY = "com.g3rdeveloper.lugares.URL_RECURSO";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {

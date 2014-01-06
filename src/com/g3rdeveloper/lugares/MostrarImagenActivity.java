@@ -5,8 +5,10 @@ package com.g3rdeveloper.lugares;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 //import android.os.Environment;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -15,8 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MostrarImagenActivity extends ActionBarActivity {
+	
+	int idRecurso;
 	
 	Uri uriImagen;
 	
@@ -25,8 +30,23 @@ public class MostrarImagenActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mostrar_imagen);
         setupActionBar();
-
-		buscarUri(0);
+        
+        try{
+			Intent intent = getIntent();
+            idRecurso = Integer.valueOf(intent.getStringExtra(MainActivity.ID_KEY));
+            
+            if(idRecurso==0){
+            	String path = intent.getStringExtra(MainActivity.URL_KEY);
+            	uriImagen = Uri.parse(Environment.getExternalStorageDirectory()+MainActivity.APP_DIRECTORY+path);
+            }else{
+            	buscarUri(idRecurso);
+            }
+            
+		}catch(Exception e){
+			e.printStackTrace();
+			Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
+		
         
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         ImagePagerAdapter adapter = new ImagePagerAdapter(uriImagen);
@@ -61,7 +81,7 @@ public class MostrarImagenActivity extends ActionBarActivity {
 	
 	private class ImagePagerAdapter extends PagerAdapter {
 
-        private Uri[] mUrls;
+        private Uri[] mUrls = new Uri[1];
         String[] mFiles = null;
 
         public ImagePagerAdapter(Uri imagen) {
@@ -70,7 +90,7 @@ public class MostrarImagenActivity extends ActionBarActivity {
 
         @Override
         public int getCount() {
-                return mFiles.length;
+                return mUrls.length;
         }
 
         @Override

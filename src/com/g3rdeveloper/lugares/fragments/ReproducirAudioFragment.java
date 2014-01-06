@@ -2,6 +2,8 @@ package com.g3rdeveloper.lugares.fragments;
 
 import java.io.IOException;
 
+import com.g3rdeveloper.lugares.MainActivity;
+
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
@@ -50,9 +53,13 @@ public class ReproducirAudioFragment extends DialogFragment {
 		return builder.create();
 	}
 	
-	public void setFile(int id){
+	public void setIdFile(int id){
 		//id
 		mFilePath="";
+	}
+	
+	public void setUrlFile(String url){
+		mFilePath=Environment.getExternalStorageDirectory().getAbsolutePath()+MainActivity.APP_DIRECTORY+url;
 	}
 	
 	
