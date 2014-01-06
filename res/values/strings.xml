@@ -11,11 +11,9 @@
     <string name="action_borrar">Borrar</string>
     <string name="action_modificar">Modificar</string>
     <string name="action_ver">Ver</string>
-    
     <string name="title_favoritos">Favoritos</string>
     <string name="title_activity_manto">AgregarActivity</string>
     <string name="title_activity_visualizador">Visualizar</string>
-    
     <string name="noFavorito">Aún no tienes ningún favorito</string>
     <string name="lblDireccionAprox">Dirección aproximada</string>
     <string name="txvContenidoExtra">Contenido extra</string>
@@ -26,7 +24,10 @@
     <string name="txtVideo">Video</string>
     <string name="txtCargando">Cargando...</string>
     <string name="txtTitulo">Título</string>
-    
     <string name="nullText"></string>
-    
+    <string name="title_activity_mostrar_imagen">MostrarImagenActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_mostrar_video">MostrarVideoActivity</string>
+
 </resources>

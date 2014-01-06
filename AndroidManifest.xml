@@ -10,7 +10,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,6 +17,13 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -51,6 +57,14 @@
             android:name="com.g3rdeveloper.lugares.VisualizadorActivity"
             android:label="@string/title_activity_visualizador"
             android:parentActivityName="com.g3rdeveloper.lugares.MainActivity" >
+        </activity>
+        <activity
+            android:name="com.g3rdeveloper.lugares.MostrarImagenActivity"
+            android:label="@string/title_activity_mostrar_imagen" >
+        </activity>
+        <activity
+            android:name="com.g3rdeveloper.lugares.MostrarVideoActivity"
+            android:label="@string/title_activity_mostrar_video" >
         </activity>
     </application>
 

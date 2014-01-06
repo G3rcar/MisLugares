@@ -43,6 +43,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	public static final String LUGAR_KEY = "com.g3rdeveloper.lugares.LUGAR";
 	public static final String LUGAR_MTO = "com.g3rdeveloper.lugares.LUGARMTO";
 	
+	public static final String APP_DIRECTORY = "/Lugares";
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

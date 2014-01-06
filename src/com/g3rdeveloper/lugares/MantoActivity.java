@@ -1,6 +1,7 @@
 package com.g3rdeveloper.lugares;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.g3rdeveloper.lugares.beans.LugarBean;
+import com.g3rdeveloper.lugares.fragments.RecordAudioFragment;
+import com.g3rdeveloper.lugares.fragments.RecordAudioFragment.RecordAudioFragmentListener;
 import com.g3rdeveloper.lugares.sqlite.SQLiteHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -34,8 +37,12 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -47,7 +54,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MantoActivity extends ActionBarActivity implements ConnectionCallbacks,
-									OnConnectionFailedListener,LocationListener {
+									OnConnectionFailedListener,LocationListener,RecordAudioFragmentListener {
 	
 	private String type = "nvo";
 	private LugarBean bean;
@@ -56,6 +63,10 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
     private LocationClient mLocationClient;
     private boolean primeraPosicionCargada = false;
     private boolean estaCargando = true;
+    
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
+    private static final int RESULT_LOAD_VIDEO = 300;
     
     private static final LocationRequest REQUEST = LocationRequest.create()
             .setInterval(5000)         // 5 seconds
@@ -68,7 +79,8 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
     Double longitud = 0d;
     int idFavorito = 0;
     String direccionRest="";
-    
+    String nameNewFile="";
+    String[] files;
     
     @Override
     protected void onResume() {
@@ -95,6 +107,11 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 		
 		setupActionBar();
 		setSupportProgressBarIndeterminateVisibility(true);
+		
+
+		createDirIfNotExists(MainActivity.APP_DIRECTORY);
+		createDirIfNotExists(MainActivity.APP_DIRECTORY+"/tmp");
+		
 		
 		edtTitulo = (EditText)findViewById(R.id.edtTitulo);;
 		txvDireccion = (TextView)findViewById(R.id.txvDireccionAproximada);
@@ -155,8 +172,32 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 			setSupportProgressBarIndeterminate(true);
             mLocationClient.connect();
 			break;
+		case R.id.itmAudio:
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			RecordAudioFragment dialogo = new RecordAudioFragment();
+			dialogo.show(fragmentManager, "tagAlerta");
+			break;
+		case R.id.itmFoto:
+			llamarCamara(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+			break;
+		case R.id.itmVideo:
+			llamarCamara(CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+			break;
 		}
 		return true;
+	}
+	
+	private void llamarCamara(int codigo){
+		String extension = (codigo==CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE)?".jpg":".mp4";
+		String tipo = (codigo==CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE)?MediaStore.ACTION_IMAGE_CAPTURE:MediaStore.ACTION_VIDEO_CAPTURE;
+		
+		Intent intent = new Intent(tipo);
+		
+		nameNewFile = System.currentTimeMillis()+extension;
+		File image = new File(Environment.getExternalStorageDirectory(),MainActivity.APP_DIRECTORY+"/tmp/"+nameNewFile);
+		Uri fileUri = Uri.fromFile(image); 
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); 
+        startActivityForResult(intent, codigo);
 	}
 
 
@@ -192,6 +233,33 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 	}
 	
 	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Foto
+		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+            	//
+            } else if (resultCode == RESULT_CANCELED) {
+            	//
+            } else {
+                    Toast.makeText(this, "Error al tomar la foto", Toast.LENGTH_LONG).show();
+            }
+        }
+		
+		if (requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+            	//
+            } else if (resultCode == RESULT_CANCELED) {
+            	//
+            } else {
+                    Toast.makeText(this, "Error al tomar el Video", Toast.LENGTH_LONG).show();
+            }
+        }else if(requestCode == RESULT_LOAD_VIDEO ){
+                Toast.makeText(this, "Error al tomar el Video", Toast.LENGTH_LONG).show();
+        }
+    }
+	
+	
 	
 	private void setUpMap() {
         if (mMap == null) {
@@ -209,6 +277,8 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 	            this); // OnConnectionFailedListener
         }
     }
+	
+	
 	
 	
 	
@@ -259,6 +329,11 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
     	// TODO Auto-generated method stub
 
     }
+
+	@Override
+	public void onRecordPositiveButton(String name) {
+		Toast.makeText(this, "Audio guardado"+name, Toast.LENGTH_SHORT).show();
+	}
     
     
     
@@ -315,6 +390,21 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
     		}
     		return builder.toString();
     	}
+    }
+    
+    
+    
+    public static boolean createDirIfNotExists(String path) {
+        boolean ret = true;
+
+        File file = new File(Environment.getExternalStorageDirectory(), path);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e("TravellerLog :: ", "Problem creating Image folder");
+                ret = false;
+            }
+        }
+        return ret;
     }
 
 }
