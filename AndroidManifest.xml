@@ -60,11 +60,13 @@
         </activity>
         <activity
             android:name="com.g3rdeveloper.lugares.MostrarImagenActivity"
-            android:label="@string/title_activity_mostrar_imagen" >
+            android:label="@string/title_activity_mostrar_imagen"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.g3rdeveloper.lugares.MostrarVideoActivity"
-            android:label="@string/title_activity_mostrar_video" >
+            android:label="@string/title_activity_mostrar_video"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

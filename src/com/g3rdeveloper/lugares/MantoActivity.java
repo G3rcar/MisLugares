@@ -184,7 +184,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 	        	case MainActivity.TIPO_VIDEO:
 	        		intent = new Intent(MantoActivity.this,MostrarVideoActivity.class);
 	        		intent.putExtra(MainActivity.ID_KEY, 0);
-	        		intent.putExtra(MainActivity.URL_KEY, "tmp/"+item.getUrl());
+	        		intent.putExtra(MainActivity.URL_KEY, "/tmp/"+item.getUrl());
 	        		startActivity(intent);
 	        		break;
 	        	}
@@ -261,7 +261,8 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 	
 	public void guardarLugar(){
         try{
-			SQLiteHelper sqliteHelper = new SQLiteHelper(this, "lugares.db", null, 1);
+			int id;
+        	SQLiteHelper sqliteHelper = new SQLiteHelper(this, "lugares.db", null, 1);
 			db = sqliteHelper.getWritableDatabase();
 			ContentValues values = new ContentValues();
 			values.put("titulo", edtTitulo.getText().toString());
@@ -269,10 +270,13 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 			values.put("latitud", Double.valueOf(latitud));
 			values.put("longitud", Double.valueOf(longitud));
 			if(type.equals("NVO")){
-				db.insert("favorito", null, values);
+				id = (int)db.insert("favorito", null, values);
+				Toast.makeText(this, "ID insertado "+id, Toast.LENGTH_LONG).show();
 			}else{
+				id = bean.getId();
 				db.update("favorito", values, "id="+bean.getId(), null);
 			}
+			
 			db.close();
 			Intent intent2 = new Intent();
 			setResult(RESULT_OK, intent2);
@@ -317,6 +321,7 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 		data.add(item);
 		ImageAdapter adaptador = new ImageAdapter(this,data);
 		gridView.setAdapter(adaptador);
+		nameNewFile="";
 	}
 	
 	
@@ -508,7 +513,6 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 	        return imageView;
 	    }
 
-	    // references to our images
 	    private Integer[] mThumbIds = {
 	            R.drawable.grid_video,
 	            R.drawable.grid_audio,

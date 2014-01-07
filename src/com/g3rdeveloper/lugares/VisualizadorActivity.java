@@ -207,10 +207,9 @@ public class VisualizadorActivity extends ActionBarActivity implements ConfirmFr
 	        return 0;
 	    }
 
-	    // create a new ImageView for each item referenced by the Adapter
 	    public View getView(int position, View convertView, ViewGroup parent) {
 	        ImageView imageView;
-	        if (convertView == null) {  // if it's not recycled, initialize some attributes
+	        if (convertView == null) {
 	            imageView = new ImageView(mContext);
 	            GridView.LayoutParams layoutParams = new GridView.LayoutParams(85, 85);
 	            imageView.setLayoutParams(layoutParams);
@@ -224,7 +223,6 @@ public class VisualizadorActivity extends ActionBarActivity implements ConfirmFr
 	        return imageView;
 	    }
 
-	    // references to our images
 	    private Integer[] mThumbIds = {
 	            R.drawable.grid_video,
 	            R.drawable.grid_image,

@@ -1,17 +1,17 @@
 package com.g3rdeveloper.lugares;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-public class MostrarVideoActivity extends ActionBarActivity {
+public class MostrarVideoActivity extends Activity {
 	
 	Uri mUrl;
 	int idRecurso;
@@ -19,15 +19,16 @@ public class MostrarVideoActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_mostrar_video);
-        setupActionBar();
         
         try{
 			Intent intent = getIntent();
-            idRecurso = Integer.valueOf(intent.getStringExtra(MainActivity.ID_KEY));
+			Bundle b = (Bundle) intent.getExtras();
+            idRecurso = b.getInt(MainActivity.ID_KEY);
             
             if(idRecurso==0){
-            	String path = intent.getStringExtra(MainActivity.URL_KEY);
+            	String path = b.getString(MainActivity.URL_KEY);
             	mUrl = Uri.parse(Environment.getExternalStorageDirectory()+MainActivity.APP_DIRECTORY+path);
             }else{
             	buscarUri(idRecurso);
@@ -38,17 +39,6 @@ public class MostrarVideoActivity extends ActionBarActivity {
 			Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 		reproducirVideo();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.mostrar_video, menu);
-		return true;
-	}
-	
-	private void setupActionBar() {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override
