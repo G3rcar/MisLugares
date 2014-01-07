@@ -27,5 +27,6 @@
     <string name="nullText"></string>
     <string name="title_activity_mostrar_imagen">Imagen</string>
     <string name="title_activity_mostrar_video">Video</string>
+    <string name="btnCambiar">Cambiar</string>
 
 </resources>
