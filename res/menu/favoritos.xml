@@ -7,14 +7,7 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_configuraciones"/>
-    -->
     
-    <item 
-        android:id="@+id/itmNuevoLugar" 
-        android:title="@string/action_nuevo_lugar" 
-        android:icon="@drawable/ic_content_new"
-        app:showAsAction="always">
-    </item>
     
     <item
 	    android:id="@+id/itmMenuSearch"
@@ -23,6 +16,14 @@
 	    app:showAsAction="ifRoom|collapseActionView"
 	    android:queryHint="@string/action_buscar_hint"
 	    android:title="@string/action_buscar" >
+    </item>
+    -->
+    
+    <item 
+        android:id="@+id/itmNuevoLugar" 
+        android:title="@string/action_nuevo_lugar" 
+        android:icon="@drawable/ic_content_new"
+        app:showAsAction="always">
     </item>
     
 </menu>

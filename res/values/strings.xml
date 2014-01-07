@@ -22,12 +22,10 @@
     <string name="txtFoto">Foto</string>
     <string name="txtAudio">Audio</string>
     <string name="txtVideo">Video</string>
-    <string name="txtCargando">Cargando...</string>
+    <string name="txtCargando">Cargando…</string>
     <string name="txtTitulo">Título</string>
     <string name="nullText"></string>
-    <string name="title_activity_mostrar_imagen">MostrarImagenActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_mostrar_video">MostrarVideoActivity</string>
+    <string name="title_activity_mostrar_imagen">Imagen</string>
+    <string name="title_activity_mostrar_video">Video</string>
 
 </resources>

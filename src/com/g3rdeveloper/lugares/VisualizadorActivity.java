@@ -1,7 +1,11 @@
 package com.g3rdeveloper.lugares;
 
-import com.g3rdeveloper.lugares.beans.LugarBean;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.g3rdeveloper.lugares.beans.ItemsBean;
 import com.g3rdeveloper.lugares.fragments.ConfirmFragment;
+import com.g3rdeveloper.lugares.fragments.ReproducirAudioFragment;
 import com.g3rdeveloper.lugares.fragments.ConfirmFragment.ConfirmFragmentListener;
 import com.g3rdeveloper.lugares.sqlite.SQLiteHelper;
 import com.google.android.gms.maps.CameraUpdate;
@@ -41,6 +45,8 @@ public class VisualizadorActivity extends ActionBarActivity implements ConfirmFr
 	private TextView txvDireccion;
 	private Double latitud;
 	private Double longitud;
+	
+    List<ItemsBean> data;
 	
 	@Override
     protected void onResume() {
@@ -90,15 +96,56 @@ public class VisualizadorActivity extends ActionBarActivity implements ConfirmFr
         longitud = cursor.getDouble(3);
         ponerMarcador();
         llenarGrid();
+
+		db.close();
+		sqliteHelper.close();
 	}
 	
 	private void llenarGrid(){
+		data = new ArrayList<ItemsBean>();
+		
+		Cursor cursor = db.rawQuery("select id,referencia,2 tipo from foto where idfavorito = "+idFavorito+
+									" union all select id,referencia,1 tipo from audio where idfavorito = "+idFavorito+
+									" union all select id,referencia,0 tipo from video where idfavorito = "+idFavorito, null);
+		if (cursor.moveToFirst()) {
+            do {
+            	ItemsBean item = new ItemsBean();
+            	item.setId(cursor.getInt(0));
+            	item.setTipo(cursor.getInt(2));
+            	item.setUrl(cursor.getString(1));
+            	data.add(item);
+            } while(cursor.moveToNext());
+        }
+		
+		
 		GridView gridView = (GridView)findViewById(R.id.gdvExtras);
-		gridView.setAdapter(new ImageAdapter(this));
+		ImageAdapter adaptador = new ImageAdapter(this,data);
+		gridView.setAdapter(adaptador);
 		
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	            Toast.makeText(VisualizadorActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+	        	ItemsBean item = data.get(position);
+	        	Intent intent;
+	        	switch(item.getTipo()){
+	        	case MainActivity.TIPO_AUDIO:
+	        		FragmentManager fragmentManager = getSupportFragmentManager();
+	    			ReproducirAudioFragment dialogo = new ReproducirAudioFragment();
+	    			dialogo.setUrlFile("/tmp/"+item.getUrl());
+	    			dialogo.show(fragmentManager, "tagReproducir");
+	        		break;
+	        	case MainActivity.TIPO_FOTO:
+	        		intent = new Intent(VisualizadorActivity.this,MostrarImagenActivity.class);
+	        		intent.putExtra(MainActivity.ID_KEY, 0);
+	        		intent.putExtra(MainActivity.URL_KEY, "/tmp/"+item.getUrl());
+	        		startActivity(intent);
+	        		break;
+	        	case MainActivity.TIPO_VIDEO:
+	        		intent = new Intent(VisualizadorActivity.this,MostrarVideoActivity.class);
+	        		intent.putExtra(MainActivity.ID_KEY, 0);
+	        		intent.putExtra(MainActivity.URL_KEY, "/tmp/"+item.getUrl());
+	        		startActivity(intent);
+	        		break;
+	        	}
 	        }
 	    });
 	}
@@ -152,6 +199,7 @@ public class VisualizadorActivity extends ActionBarActivity implements ConfirmFr
 		case R.id.itmBorrar:
 	        initBorrarItem(idFavorito);
 	        break;
+		/*
 		case R.id.itmModificar:
 			Bundle b = new Bundle();
             Intent intent = new Intent(this, MantoActivity.class);
@@ -167,6 +215,7 @@ public class VisualizadorActivity extends ActionBarActivity implements ConfirmFr
             intent.putExtra(MainActivity.LUGAR_MTO, "MTO");
             startActivityForResult(intent,2);
 			break;
+		*/
 		}
         return true;
 	}
@@ -187,7 +236,7 @@ public class VisualizadorActivity extends ActionBarActivity implements ConfirmFr
 	
 	
 	
-	
+	/*
 	public class ImageAdapter extends BaseAdapter {
 	    private Context mContext;
 
@@ -230,6 +279,50 @@ public class VisualizadorActivity extends ActionBarActivity implements ConfirmFr
 	            R.drawable.grid_video,
 	            R.drawable.grid_video,
 	            R.drawable.grid_image,
+	            R.drawable.grid_audio,
+	            R.drawable.grid_image
+	    };
+	}*/
+	
+	public class ImageAdapter extends BaseAdapter {
+	    private Context mContext;
+	    private List<ItemsBean> items;
+
+	    public ImageAdapter(Context c, List<ItemsBean> data) {
+	        mContext = c;
+	        items = data;
+	    }
+
+	    public int getCount() {
+	        return items.size();
+	    }
+
+	    public ItemsBean getItem(int position) {
+	        return items.get(position);
+	    }
+
+	    public long getItemId(int position) {
+	        return items.get(position).getId();
+	    }
+
+	    public View getView(int position, View convertView, ViewGroup parent) {
+	        ImageView imageView;
+	        if (convertView == null) {
+	            imageView = new ImageView(mContext);
+	            GridView.LayoutParams layoutParams = new GridView.LayoutParams(85, 85);
+	            imageView.setLayoutParams(layoutParams);
+	            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+	            imageView.setPadding(3, 3, 3, 3);
+	        } else {
+	            imageView = (ImageView) convertView;
+	        }
+
+	        imageView.setImageResource(mThumbIds[items.get(position).getTipo()]);
+	        return imageView;
+	    }
+
+	    private Integer[] mThumbIds = {
+	            R.drawable.grid_video,
 	            R.drawable.grid_audio,
 	            R.drawable.grid_image
 	    };

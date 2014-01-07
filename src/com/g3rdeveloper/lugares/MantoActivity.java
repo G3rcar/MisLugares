@@ -271,11 +271,11 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
 			values.put("longitud", Double.valueOf(longitud));
 			if(type.equals("NVO")){
 				id = (int)db.insert("favorito", null, values);
-				Toast.makeText(this, "ID insertado "+id, Toast.LENGTH_LONG).show();
 			}else{
 				id = bean.getId();
 				db.update("favorito", values, "id="+bean.getId(), null);
 			}
+			guardarItems(id);
 			
 			db.close();
 			Intent intent2 = new Intent();
@@ -284,6 +284,21 @@ public class MantoActivity extends ActionBarActivity implements ConnectionCallba
         }catch(Exception e){
         	Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_LONG).show();
         }
+	}
+	
+	private void guardarItems(int id){
+		String[] tablas = new String[3];
+		tablas[MainActivity.TIPO_AUDIO]="audio";
+		tablas[MainActivity.TIPO_VIDEO]="video";
+		tablas[MainActivity.TIPO_FOTO]="foto";
+		for(int i=0;i<data.size();i++){
+			ItemsBean d = data.get(i);
+			ContentValues values = new ContentValues();
+			values.put("referencia", d.getUrl());
+			values.put("idfavorito", id);
+			
+			db.insert(tablas[d.getTipo()], null, values);
+		}
 	}
 	
 	

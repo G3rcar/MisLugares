@@ -1,23 +1,18 @@
 package com.g3rdeveloper.lugares;
 
-import com.g3rdeveloper.lugares.beans.LugarBean;
 import com.g3rdeveloper.lugares.fragments.ConfirmFragment;
 import com.g3rdeveloper.lugares.fragments.ConfirmFragment.ConfirmFragmentListener;
 import com.g3rdeveloper.lugares.sqlite.SQLiteHelper;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -36,7 +31,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	private ActionBar ab;
 	private SQLiteDatabase db = null;
 	private ListView listView;
-	private MenuItem actBtnBusqueda;
+	//private MenuItem actBtnBusqueda;
 	private SimpleCursorAdapter adapter;
 	private int idEnOperacion;
 	public static final String LUGAR_VER = "com.g3rdeveloper.lugares.VISUALIZAR";
@@ -107,7 +102,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     private void borrarItem(int id){
     	SQLiteHelper sqliteHelper = new SQLiteHelper(this, "lugares.db", null, 1);
         db = sqliteHelper.getWritableDatabase();
+    	db.delete("foto", "idfavorito="+id, null);
+    	db.delete("audio", "idfavorito="+id, null);
+    	db.delete("video", "idfavorito="+id, null);
     	db.delete("favorito", "id="+id, null);
+    	
     	db.close();
     	iniciarBD();
     }
@@ -147,6 +146,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		case R.id.itmVer:
 			verItem(cursor.getInt(1));
 			break;
+		/*
 		case R.id.itmModificar:
 			Bundle b = new Bundle();
             Intent intent = new Intent(this, MantoActivity.class);
@@ -163,6 +163,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             startActivityForResult(intent,2);
             
 			break;
+		*/
 		}
 		return true;
 	}
@@ -171,15 +172,17 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favoritos, menu);
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        /*
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		actBtnBusqueda = (MenuItem) menu.findItem(R.id.itmMenuSearch);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(actBtnBusqueda);
-        
+
         if (null != searchView ){
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setIconifiedByDefault(false);   
         }
-
+        
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener(){
             public boolean onQueryTextChange(String newText){
             	adapter.getFilter().filter(newText);
@@ -191,6 +194,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
+        */
         return super.onCreateOptionsMenu(menu);
     }
     

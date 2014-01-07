@@ -7,12 +7,14 @@
         android:title="@string/action_ver"
         android:titleCondensed="Delete">
     </item>
+    <!--  
     <item
         android:id="@+id/itmModificar"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/action_modificar"
         android:titleCondensed="Delete">
     </item>
+    -->
     <item
         android:id="@+id/itmBorrar"
         android:icon="@android:drawable/ic_menu_delete"
